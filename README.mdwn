@@ -1,0 +1,13 @@
+## ChildConsole>
+
+I made this console emulator for children to get used to the black screen.
+
+I actually wrote this console for my 5 year old brother. I decided to put the code on Github as I thought others might benefit as well.
+
+### Teaching
+
+When you type `ls` command, you will see two and three letter commands listed. Ask the child to perceive the listed commands and find and type them on the keyboard.
+
+### Manual Page
+
+Type `man` or read: [local/man/README](local/man/README)

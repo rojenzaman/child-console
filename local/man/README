@@ -1,0 +1,96 @@
+--------------------------------------------------------
+main command		explain
+--------------------------------------------------------
+paint			open paint editor
+alpha			open alphabet training
+speak			text to speech
+plc			alphabet listen/read game
+ascii			download or paste any ascii file
+vt			download vt100 file
+ansi			download ansi file
+game			list games
+p			print test message
+clear			clear screen
+ls			list available art commands
+q			exit from console
+h			display help
+matrix			matrix effect
+nyan			display nyan cat
+--------------------------------------------------------
+
+set vt speed
+  type speed value and run it (1..100)
+	> VTCOMMAND <SPEED>
+  example:
+	> WRL 50
+  note: vt commands are has own default speed values, these run with vt100 emulator
+
+paint
+  just type paint, and draw it!
+	> paint
+
+alpha (abc, alphabet)
+  just type alpha and training!
+	> alpha
+
+speak (s)
+  simple text to speech from console. default english setted, for change it go to config.conf and find lang variable
+        > speak "Hello World!"
+
+plc (play, ply)
+  play alphabet game, listen and read! just type plc. for change alphabet language; go to ./alphabet/ directory and run ./download_for_your_language.sh script.
+	> plc
+
+ascii
+- download ascii art from internet:
+	> ascii CommandNAME URL
+- paste ascii
+	> ascii CommandNAME stdin
+
+vt
+  download vt100 file from internet
+	> vt CommandNAME URL
+
+ansi
+  download ansi file from internet
+	> ansi CommandNAME URL
+
+game (g, games, gamelist, gamels, gls)
+  just type game and view available games.
+  included games:
+	> game
+	 ___________________________________________________
+	|          |        |      |       |       |        |
+	| housenka | matrix | nyan | paint | snake | tetris |
+	|__________|________|______|_______|_______|________|
+
+
+p (echo, print, printf, println, msg, message)
+  print colered ascii text to screen:
+	> p Hello World!
+
+clear (c, cls)
+  just type c or clear to clean the screen
+	> c
+
+ls (list, l)
+    type ls to list available art commands, and select anyone then type it to console for run it.
+	> ls
+	ANG
+	> ANG
+
+q (exit, quit)
+ type q to exit from console
+	> q
+
+h (help)
+  display help
+	> h
+
+matrix
+  matrix effect
+	> matrix
+
+nyan
+  display nyan cat
+	> nyan
