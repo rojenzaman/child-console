@@ -120,7 +120,7 @@ opt1="${input_parse[1]}"
 url="${input_parse[2]}"
 upper_opt0="${opt0^^}"
 lower_opt0="${opt0,,}"
-pure_opt1=$(echo "${opt1}" | sed 's/[^a-zA-Z0-9]//g') ; upt="${pure_opt1}^^}"
+pure_opt1=$(echo "${opt1}" | sed 's/[^a-zA-Z0-9]//g') ; upt="${pure_opt1^^}"
 message=$(echo "${input}" | sed "s/^[^ ]* //" | tr -d '"')
 case ${lower_opt0} in
 	ls|list|l) list_commands | paste - -; continue ;;
