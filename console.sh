@@ -79,7 +79,7 @@ playabc() {
 }
 
 number() {
-	mp3_files=$(find numbers/ -name "*.mp3" -exec readlink -f {} \; | xargs echo -n)
+	mp3_files=$(find ${script_dir}/local/lib/numbers/ -name "*.mp3" -exec readlink -f {} \; | xargs echo -n)
 	echo "${mp3_files}"
 	read
 	trap 'break' INT;
