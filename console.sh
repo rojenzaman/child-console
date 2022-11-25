@@ -2,7 +2,12 @@
 
 script_dir="$(dirname "$(readlink -f "$0")")"
 source "${script_dir}/local/etc/config.conf"
-make check || exit 1
+
+if [[ "${CONSOLE_IS_BEHIND_TTYD}" == "true" ]]; then
+	curl() { echo "operation not permitted: curl ${@}"; }
+else
+	make check || exit 1
+fi
 
 list_commands() {
 	echo -e "\e[38;5;211m\c"
