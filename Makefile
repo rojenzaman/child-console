@@ -1,6 +1,6 @@
 OCI = docker
 CONTAINER = child-console-ttyd
-TAG = latest
+TAG = ttyd
 IMAGE = rojen/child-console:$(TAG)
 # list of available arch: https://github.com/tsl0922/ttyd/releases
 TARGETARCH = x86_64
