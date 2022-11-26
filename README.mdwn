@@ -1,5 +1,7 @@
 ## ChildConsole>
 
+Try out on web: [cc.rojen.uk](https://cc.rojen.uk)
+
 I made this console emulator for children to get used to the black screen.
 
 I actually wrote this console for my 5 year old brother. I decided to put the code on Github as I thought others might benefit as well.
