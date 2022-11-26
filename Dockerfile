@@ -25,10 +25,12 @@ COPY --chown=ttyd . /var/lib/ttyd/child-console
 # local requirements
 ENV CONSOLE_IS_BEHIND_TTYD="true"
 ENV PATH="${PATH}:/usr/games"
+ARG MAX_CLIENTS
+ENV MAX_CLIENTS="${MAX_CLIENTS}"
 WORKDIR /var/lib/ttyd/child-console
 EXPOSE 7681
 
 # set ENTRYPOINT
 # starting the application with tini
 ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["ttyd", "bash", "-c", "/var/lib/ttyd/child-console/console.sh"]
+CMD ttyd -m ${MAX_CLIENTS} bash -c /var/lib/ttyd/child-console/console.sh
