@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* 
 	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG en_US.utf8
 
-# install dependencies 
+# install dependencies
 # do not use: ffmpeg
 RUN apt-get update && apt-get install -y \
 	tini adduser wget pv cowsay toilet sl lolcat \
@@ -33,4 +33,4 @@ EXPOSE 7681
 # set ENTRYPOINT
 # starting the application with tini
 ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ttyd -m ${MAX_CLIENTS} bash -c /var/lib/ttyd/child-console/console.sh
+CMD ttyd -W -m ${MAX_CLIENTS} bash -c /var/lib/ttyd/child-console/console.sh
