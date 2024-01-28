@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  child-console-ttyd:
+    build:
+      context: .
+      args:
+        TARGETARCH: x86_64
+        MAX_CLIENTS: 10
+    image: rojen/child-console:ttyd
+    container_name: child-console-ttyd
+    ports:
+      - "3003:7681"
+    restart: unless-stopped
