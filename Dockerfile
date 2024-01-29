@@ -33,4 +33,4 @@ EXPOSE 7681
 # set ENTRYPOINT
 # starting the application with tini
 ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ttyd -W -m ${MAX_CLIENTS} bash -c /var/lib/ttyd/child-console/console.sh
+CMD ttyd --url-arg --writable --max-clients ${MAX_CLIENTS} bash -c /var/lib/ttyd/child-console/console.sh
