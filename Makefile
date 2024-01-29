@@ -23,6 +23,12 @@ run-container:
 run-container-d:
 	$(OCI) run -d --name $(CONTAINER) -p $(PORT):7681 $(IMAGE)
 
+shell:
+	$(OCI) exec -it $(CONTAINER) bash
+
+exec-child-console:
+	$(OCI) exec -it $(CONTAINER) /var/lib/ttyd/child-console/console.sh
+
 ttyd:
 	make clean-container
 	make build-container
