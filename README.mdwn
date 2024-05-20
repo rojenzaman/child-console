@@ -1,15 +1,13 @@
 ## ChildConsole>
 
-Try out on web: [cc.rojen.uk](https://cc.rojen.uk)
+Try it out on the web: [cc.rojen.uk](https://cc.rojen.uk) (ttyd)
 
-I made this console emulator for children to get used to the black screen.
+ChildConsole is a console emulator designed to familiarize children with the command-line interface. I originally developed this console for my 5-year-old brother (2022), and realizing its potential benefit for others, I decided to share the code on GitHub.
 
-I actually wrote this console for my 5 year old brother. I decided to put the code on Github as I thought others might benefit as well.
+### Educational Purpose
 
-### Teaching
-
-When you type `ls` command, you will see two and three letter commands listed. Ask the child to perceive the listed commands and find and type them on the keyboard.
+The `ls` command in ChildConsole displays a list of simple two and three-letter commands. Encourage children to recognize and identify these commands on the list and practice typing them on the keyboard.
 
 ### Manual Page
 
-Type `man` or read: [local/man/README](local/man/README)
+To learn more about how to use the ChildConsole, type `man` or visit the online manual at: [local/man/README](local/man/README)
