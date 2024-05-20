@@ -3,6 +3,18 @@
 script_dir="$(dirname "$(readlink -f "$0")")"
 source "${script_dir}/local/etc/config.conf"
 
+# Initialize the history file to save commands
+history_file="${script_dir}/.childconsole_history"
+touch "$history_file"  # Ensure history file exists
+HISTFILE="$history_file"
+HISTSIZE=-1
+HISTFILESIZE=-1
+
+# Load history from file
+if [ -f "$history_file" ]; then
+	history -r "$history_file"
+fi
+
 if [[ "${CONSOLE_IS_BEHIND_TTYD}" == "true" ]]; then
 	curl() { echo "operation not permitted: curl ${@}"; }
 else
@@ -22,7 +34,7 @@ list_commands() {
 list_games() {
 	echo -e "\033\e[92m\c"
 	cat <<EOT
-__________________________________________________________________________
+ __________________________________________________________________________
 |          |        |      |       |       |        |       |     |        |
 | housenka | matrix | nyan | paint | snake | tetris | speak | plc | number |
 |__________|________|______|_______|_______|________|_______|_____|________|
@@ -49,14 +61,14 @@ ansi_interpreter() { cat ${script_dir}/local/lib/ansi/${upper_opt0}.ANS | iconv 
 return_message() { cowsay "${input}" 2>/dev/null ; echo -e "\033[31minterpreter: \e[93m${upper_opt0}\033[31m: not found...\e[0m" ; }
 
 get_art() {
-[[ "${upt,,}" =~ ^(h|help|man|ls|list|l|c|clear|cls|sl|train|ascii|vt|ansi|q|quit|exit|p|print|printf|println|echo|message|msg|matrix|tetris|snake|nyan|paint|housenka|game|g|games|gamelist|gamels|gls|alpha|alphabet|abc|s|speak|playabc|plc|ply|number|numbers|nmr)$ ]] && { echo "command exist!" ; return ; }
+	[[ "${upt,,}" =~ ^(h|help|man|ls|list|l|c|clear|cls|sl|train|ascii|vt|ansi|q|quit|exit|p|print|printf|println|echo|message|msg|matrix|tetris|snake|nyan|paint|housenka|game|g|games|gamelist|gamels|gls|alpha|alphabet|abc|s|speak|playabc|plc|ply|number|numbers|nmr)$ ]] && { echo "command exist!" ; return ; }
 	[[ "${lower_opt0}" == "ascii" ]] && [[ "${url}" =~ ^(stdin|STDIN)$ ]] && {
 		[[ -f "${script_dir}/local/lib/ascii/${upt}.ascii" ]] || [[ -f "${script_dir}/local/lib/vt/${upt}.vt" ]] || [[ -f "${script_dir}/local/lib/ansi/${upt}.ANS" ]] && { echo "file exist!" ; return ; }
 		echo -e "paste ascii art\nMissing [CTRL+D] for exit from stdin\n"
 		stdText=$(</dev/stdin)
 		echo "$stdText" >> ${script_dir}/local/lib/ascii/${upt}.ascii
 		return
-		}
+	}
 	url_regex='(https?|http|ftp|file)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]'
 	[[ -z "${upt}" ]] &&  { echo "file name not given!" ; }
 	[[ "${url}" =~ ${url_regex} ]] || { echo "invalid url" ; return ; }
@@ -100,7 +112,7 @@ number() {
 	trap INT
 }
 
-# start message
+# Start message
 clear
 toilet -f smblock --filter border:metal 'ChildConsole'
 cat <<EOT
@@ -108,48 +120,57 @@ Welcome to Child Console!
  Type ls to list art commands (ls,l)
  Type help to available function and commands (h)
  Type game to list available games (gls,g)
+ Type history to list old commands (hs)
  Type clear to clean the console (c)
+ Press [↑] or [↓] to cycle through old commands
  Press [CTRL+C] to exit.
 
 EOT
 
-# while loop foor console promt
+# Disable the TAB key for auto-completion
+bind 'set disable-completion on' 2>/dev/null
+
+# While loop for console prompt
 while :
 do
-read -p "ChildConsole> " input
-[[ -z "${input}" ]] && continue
-IFS=' '
-read -ra input_parse <<<"${input}"
-opt0="${input_parse[0]}"
-opt1="${input_parse[1]}"
-url="${input_parse[2]}"
-upper_opt0="${opt0^^}"
-lower_opt0="${opt0,,}"
-pure_opt1=$(echo "${opt1}" | sed 's/[^a-zA-Z0-9]//g') ; upt="${pure_opt1^^}"
-message=$(echo "${input}" | sed "s/^[^ ]* //" | tr -d '"')
-case ${lower_opt0} in
-	ls|list|l) list_commands | paste - -; continue ;;
-	c|clear|cls) clear; continue ;;
-	sl|train) sl; continue ;;
-	ascii|vt|ansi) get_art; continue ;;
-	q|quit|exit) break ;;
-	p|print|printf|println|echo|message|msg) toilet -f smblock "${message}" | lolcat ; continue ;;
-	matrix) ${script_dir}/local/lib/game/matrix.sh ; continue ;;
-	tetris) ${script_dir}/local/lib/game/tetris.sh ; continue ;;
-	snake) ${script_dir}/local/lib/game/snake.sh ; continue ;;
-	nyan) ${script_dir}/local/lib/game/nyan.sh ; continue ;;
-	paint) ${script_dir}/local/lib/game/paint.sh "$(mktemp)" ; continue ;;
-	housenka) ${script_dir}/local/lib/game/housenka.sh ; continue ;;
-	s|speak) ${script_dir}/local/lib/game/TTS.sh -l "${lang}" -t "${message}" ; continue ;;
-	game|g|games|gamelist|gamels|gls) list_games ; continue ;;
-	alpha|alphabet|abc) alpha ; continue ;;
-	playabc|plc|ply) playabc ; continue ;;
-	number|numbers|nmr) number ; continue ;;
-	h|help|man) cc_help | more ; continue ;;
-esac
-[[ -f "${script_dir}/local/lib/ascii/${upper_opt0}.ascii" ]] && { ascii_interpreter ; continue ; } || {
-[[ -f "${script_dir}/local/lib/vt/${upper_opt0}.vt" ]] && { vt_interpreter ; continue ; } || {
-[[ -f "${script_dir}/local/lib/ansi/${upper_opt0}.ANS" ]] && { ansi_interpreter ; continue ; } ; } ; return_message ; }
+	read -e -p "ChildConsole> " input  # Enable command line editing and history navigation
+	[[ -z "${input}" ]] && continue
+	history -s "$input"  # Save each command to history
+	trap 'history -a' DEBUG  # Append new entries to the history file on each command execution
+
+	IFS=' '
+	read -ra input_parse <<<"${input}"
+	opt0="${input_parse[0]}"
+	opt1="${input_parse[1]}"
+	url="${input_parse[2]}"
+	upper_opt0="${opt0^^}"
+	lower_opt0="${opt0,,}"
+	pure_opt1=$(echo "${opt1}" | sed 's/[^a-zA-Z0-9]//g') ; upt="${pure_opt1^^}"
+	message=$(echo "${input}" | sed "s/^[^ ]* //" | tr -d '"')
+	case ${lower_opt0} in
+		ls|list|l) list_commands | paste - -; continue ;;
+		c|clear|cls) clear; continue ;;
+		sl|train) sl; continue ;;
+		ascii|vt|ansi) get_art; continue ;;
+		q|quit|exit) break ;;
+		p|print|printf|println|echo|message|msg) toilet -f smblock "${message}" | lolcat ; continue ;;
+		matrix) ${script_dir}/local/lib/game/matrix.sh ; continue ;;
+		tetris) ${script_dir}/local/lib/game/tetris.sh ; continue ;;
+		snake) ${script_dir}/local/lib/game/snake.sh ; continue ;;
+		nyan) ${script_dir}/local/lib/game/nyan.sh ; continue ;;
+		paint) ${script_dir}/local/lib/game/paint.sh "$(mktemp)" ; continue ;;
+		housenka) ${script_dir}/local/lib/game/housenka.sh ; continue ;;
+		s|speak) ${script_dir}/local/lib/game/TTS.sh -l "${lang}" -t "${message}" ; continue ;;
+		game|g|games|gamelist|gamels|gls) list_games ; continue ;;
+		alpha|alphabet|abc) alpha ; continue ;;
+		playabc|plc|ply) playabc ; continue ;;
+		number|numbers|nmr) number ; continue ;;
+		h|help|man) cc_help | more ; continue ;;
+		history|hs) history ; continue ;;
+	esac
+	[[ -f "${script_dir}/local/lib/ascii/${upper_opt0}.ascii" ]] && { ascii_interpreter ; continue ; } || {
+	[[ -f "${script_dir}/local/lib/vt/${upper_opt0}.vt" ]] && { vt_interpreter ; continue ; } || {
+	[[ -f "${script_dir}/local/lib/ansi/${upper_opt0}.ANS" ]] && { ansi_interpreter ; continue ; } ; } ; return_message ; }
 done
 
 echo "by!"
