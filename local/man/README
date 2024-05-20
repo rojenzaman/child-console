@@ -1,96 +1,95 @@
 --------------------------------------------------------
-main command		explain
+Main Command       Explain
 --------------------------------------------------------
-paint			open paint editor
-alpha			open alphabet training
-speak			text to speech
-plc			alphabet listen/read game
-ascii			download or paste any ascii file
-vt			download vt100 file
-ansi			download ansi file
-game			list games
-p			print test message
-clear			clear screen
-ls			list available art commands
-q			exit from console
-h			display help
-matrix			matrix effect
-nyan			display nyan cat
+paint              Open paint editor
+alpha              Open alphabet training
+speak              Text to speech
+plc                Alphabet listen/read game
+ascii              Download or paste any ASCII file
+vt                 Download VT100 file
+ansi               Download ANSI file
+game               List games
+p                  Print test message
+clear              Clear screen
+ls                 List available art commands
+q                  Exit from console
+h                  Display help
+matrix             Matrix effect
+nyan               Display Nyan Cat
 --------------------------------------------------------
 
-set vt speed
-  type speed value and run it (1..100)
-	> VTCOMMAND <SPEED>
-  example:
-	> WRL 50
-  note: vt commands are has own default speed values, these run with vt100 emulator
+Set VT Speed:
+  Type speed value and run it (1..100)
+  > VTCOMMAND <SPEED>
+  Example:
+  > WRL 50
+  Note: VT commands have their own default speed values, these run with VT100 emulator
 
-paint
-  just type paint, and draw it!
-	> paint
+PAINT:
+  Just type 'paint', and draw it!
+  > paint
 
-alpha (abc, alphabet)
-  just type alpha and training!
-	> alpha
+ALPHA (abc, alphabet):
+  Just type 'alpha' and start training!
+  > alpha
 
-speak (s)
-  simple text to speech from console. default english setted, for change it go to config.conf and find lang variable
-        > speak "Hello World!"
+SPEAK (s):
+  Simple text to speech from console. Default language is set to English. To change it, go to config.conf and find the 'lang' variable.
+  > speak "Hello World!"
 
-plc (play, ply)
-  play alphabet game, listen and read! just type plc. for change alphabet language; go to ./alphabet/ directory and run ./download_for_your_language.sh script.
-	> plc
+PLC (play, ply):
+  Play alphabet game, listen and read! Just type 'plc'. To change the alphabet language, go to the ./alphabet/ directory and run ./download_for_your_language.sh script.
+  > plc
 
-ascii
-- download ascii art from internet:
-	> ascii CommandNAME URL
-- paste ascii
-	> ascii CommandNAME stdin
+ASCII:
+  - Download ASCII art from the internet:
+    > ascii CommandNAME URL
+  - Paste ASCII:
+    > ascii CommandNAME stdin
 
-vt
-  download vt100 file from internet
-	> vt CommandNAME URL
+VT:
+  Download VT100 file from the internet
+  > vt CommandNAME URL
 
-ansi
-  download ansi file from internet
-	> ansi CommandNAME URL
+ANSI:
+  Download ANSI file from the internet
+  > ansi CommandNAME URL
 
-game (g, games, gamelist, gamels, gls)
-  just type game and view available games.
-  included games:
-	> game
-	 ___________________________________________________
-	|          |        |      |       |       |        |
-	| housenka | matrix | nyan | paint | snake | tetris |
-	|__________|________|______|_______|_______|________|
+GAME (g, games, gamelist, gamels, gls):
+  Just type 'game' and view available games.
+  Included games:
+  > game
+   ___________________________________________________
+  |          |        |      |       |       |        |
+  | housenka | matrix | nyan | paint | snake | tetris |
+  |__________|________|______|_______|_______|________|
 
+P (echo, print, printf, println, msg, message):
+  Print colored ASCII text to the screen:
+  > p Hello World!
 
-p (echo, print, printf, println, msg, message)
-  print colered ascii text to screen:
-	> p Hello World!
+CLEAR (c, cls):
+  Just type 'c' or 'clear' to clean the screen.
+  > c
 
-clear (c, cls)
-  just type c or clear to clean the screen
-	> c
+LS (list, l):
+  Type 'ls' to list available art commands, and select anyone then type it to console for run it.
+  > ls
+  ANG
+  > ANG
 
-ls (list, l)
-    type ls to list available art commands, and select anyone then type it to console for run it.
-	> ls
-	ANG
-	> ANG
+Q (exit, quit):
+  Type 'q' to exit from console.
+  > q
 
-q (exit, quit)
- type q to exit from console
-	> q
+H (help):
+  Display help.
+  > h
 
-h (help)
-  display help
-	> h
+MATRIX:
+  Matrix effect.
+  > matrix
 
-matrix
-  matrix effect
-	> matrix
-
-nyan
-  display nyan cat
-	> nyan
+NYAN:
+  Display Nyan Cat.
+  > nyan
